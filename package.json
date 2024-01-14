@@ -1,0 +1,36 @@
+{
+  "name": "ponder",
+  "version": "1.0.0",
+  "description": "JavaScript tool that takes Magic: The Gathering Arena collection exports (CSV) and organizes them into a SQLite DB",
+  "main": "ponder.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DLvalentine/ponder.git"
+  },
+  "keywords": [
+    "magic-the-gathering",
+    "magic",
+    "gathering",
+    "mtg",
+    "arena",
+    "magic-the-gathering-arena",
+    "mtga",
+    "scryfall",
+    "mtgarenapro",
+    "sql",
+    "sqlite"
+  ],
+  "author": "David L Valentine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DLvalentine/ponder/issues"
+  },
+  "homepage": "https://github.com/DLvalentine/ponder#readme",
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}

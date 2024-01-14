@@ -128,3 +128,10 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# user files
+# don't commit DB, that goes in user-application
+db/*.db
+# don't commit collections csvs. That either goes in user-application, or needs to be stored in cloud
+*.csv
