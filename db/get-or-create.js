@@ -1,6 +1,5 @@
 import sqlite3 from 'sqlite3';
 
-// TODO -> just made collection table, will need to make DECKS table too
 export default () => {
     const db = new sqlite3.Database('./db/collection.db');
 
@@ -14,16 +13,13 @@ export default () => {
                 power TEXT,
                 toughness TEXT,
                 card_set_id TEXT NOT NULL,
+                card_set_name TEXT NOT NULL,
                 quantity INTEGER NOT NULL,
                 img_url TEXT,
-                img BLOB
-            )
-        `);
-
-        db.run(`
-            CREATE TABLE IF NOT EXISTS card_set(
-                card_set_id TEXT NOT NULL PRIMARY KEY,
-                card_set_name TEXT NOT NULL
+                keywords JSON NOT NULL,
+                loyalty TEXT,
+                cmc INT NOT NULL,
+                scryfall_uri TEXT NOT NULL
             )
         `);
     });

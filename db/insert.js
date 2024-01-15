@@ -1,30 +1,30 @@
-import sqlite3 from 'sqlite3';
-
 /**
  * Values: 
- *  - card,      text, CSV,  REQ
- *  - type,      text, API,  REQ
- *  - cost,      text, API,  REQ
- *  - c_text     text, API,  REQ
- *  - power,     text, API
- *  - toughness, text, API
- *  - set_id,    int,  CSV,  REQ
- *  - set_name,  text, CSV,  REQ
- *  - quantity   int,  CSV,  REQ
- *  - foil       int,  CSV,  REQ
- *  - img_url    text, API,  REQ
- *  - img        blob, FILE, REQ
+ *  - card,           text,         CSV, REQ
+ *  - type,           text,         API, REQ
+ *  - cost,           text,         API, REQ
+ *  - c_text          text,         API, REQ
+ *  - power,          text,         API
+ *  - toughness,      text,         API
+ *  - card_set_id,    text,         CSV, REQ
+ *  - quantity        int,          CSV, REQ
+ *  - img_url         text,         API, REQ
+ *  - keywords        JSON[]<text>, API, REQ (but could be empty)
+ *  - loyalty         text,         API
+ *  - CMC             int,          API, REQ
+ *  - scryfall_uri    text,         API, REQ
  */
-const InsertIntoCollection = (db, values) => {
-    // nullable values, TODO DRY up
+export default (db, values) => {
+    // nullable values, TODO can probably DRY up
     const power = values.power ? `'${values.power}'` : 'NULL';
     const toughness = values.toughness ? `'${values.toughness}'` : 'NULL';
     const img_url = values.img_url ? `'${values.img_url}'` : 'NULL';
-    const img = values.img ? `'${values.img}'` : 'NULL';
+    const loyalty = values.loyalty ? `'${values.loyalty}'` : 'NULL';
+    const keywords = JSON.stringify(values.keywords);
 
     db.serialize(() => {
         db.run(`
-            INSERT INTO collection(
+            INSERT or IGNORE INTO collection(
                 card,
                 type,
                 cost,
@@ -32,9 +32,13 @@ const InsertIntoCollection = (db, values) => {
                 power,
                 toughness,
                 card_set_id,
+                card_set_name,
                 quantity,
                 img_url,
-                img
+                keywords,
+                loyalty,
+                cmc,
+                scryfall_uri
             )
             VALUES (
                 '${values.card}',
@@ -43,36 +47,15 @@ const InsertIntoCollection = (db, values) => {
                 '${values.c_text}',
                 ${power},
                 ${toughness},
-                ${values.card_set_id},
-                ${values.quantity},
+                '${values.card_set_id}',
+                '${values.card_set_name}',
+                '${values.quantity}',
                 ${img_url},
-                ${img}
+                json('${keywords}'),
+                ${loyalty},
+                ${values.cmc},
+                '${values.scryfall_uri}'
             );
         `);
     });
-};
-
-/**
- * Values: 
- *  - card_set_id,   text, CSV, REQ
- *  - card_set_name, text, API, REQ
- */
-const InsertIntoCardSet = (db, values) => {
-    db.serialize(() => {
-        db.run(`
-            INSERT INTO card_set(
-                card_set_id,
-                card_set_name
-            )
-            VALUES (
-                '${values.card_set_id}',
-                '${values.card_set_name}
-            )
-        `);
-    });
-}
-
-export {
-    InsertIntoCollection,
-    InsertIntoCardSet
 };
