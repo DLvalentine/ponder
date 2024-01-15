@@ -5,6 +5,7 @@
   "main": "ponder.js",
   "type": "module",
   "scripts": {
+    "start": "node --no-warnings ./ponder.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
