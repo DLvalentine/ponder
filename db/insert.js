@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 
 /**
- * Required values: 
+ * Values: 
  *  - card,      text, CSV,  REQ
  *  - type,      text, API,  REQ
  *  - cost,      text, API,  REQ
@@ -15,8 +15,7 @@ import sqlite3 from 'sqlite3';
  *  - img_url    text, API,  REQ
  *  - img        blob, FILE, REQ
  */
-// TODO will need to make additional function(s) for each table. For now this assumes that you're just inserting into collection table
-export default (db, values) => {
+const InsertIntoCollection = (db, values) => {
     // nullable values, TODO DRY up
     const power = values.power ? `'${values.power}'` : 'NULL';
     const toughness = values.toughness ? `'${values.toughness}'` : 'NULL';
@@ -32,10 +31,8 @@ export default (db, values) => {
                 c_text,
                 power,
                 toughness,
-                set_id,
-                set_name,
+                card_set_id,
                 quantity,
-                foil,
                 img_url,
                 img
             )
@@ -46,13 +43,36 @@ export default (db, values) => {
                 '${values.c_text}',
                 ${power},
                 ${toughness},
-                ${values.set_id},
-                '${values.set_name}',
+                ${values.card_set_id},
                 ${values.quantity},
-                ${values.foil},
                 ${img_url},
                 ${img}
             );
         `);
     });
+};
+
+/**
+ * Values: 
+ *  - card_set_id,   text, CSV, REQ
+ *  - card_set_name, text, API, REQ
+ */
+const InsertIntoCardSet = (db, values) => {
+    db.serialize(() => {
+        db.run(`
+            INSERT INTO card_set(
+                card_set_id,
+                card_set_name
+            )
+            VALUES (
+                '${values.card_set_id}',
+                '${values.card_set_name}
+            )
+        `);
+    });
+}
+
+export {
+    InsertIntoCollection,
+    InsertIntoCardSet
 };

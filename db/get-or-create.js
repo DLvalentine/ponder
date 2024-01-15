@@ -13,12 +13,17 @@ export default () => {
                 c_text TEXT NOT NULL,
                 power TEXT,
                 toughness TEXT,
-                set_id INTEGER NOT NULL,
-                set_name TEXT NOT NULL,
+                card_set_id TEXT NOT NULL,
                 quantity INTEGER NOT NULL,
-                foil INTEGER NOT NULL,
                 img_url TEXT,
                 img BLOB
+            )
+        `);
+
+        db.run(`
+            CREATE TABLE IF NOT EXISTS card_set(
+                card_set_id TEXT NOT NULL PRIMARY KEY,
+                card_set_name TEXT NOT NULL
             )
         `);
     });

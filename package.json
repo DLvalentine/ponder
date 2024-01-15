@@ -31,6 +31,8 @@
   },
   "homepage": "https://github.com/DLvalentine/ponder#readme",
   "dependencies": {
+    "csv-reader": "^1.0.12",
+    "scryfall-api": "^3.2.5",
     "sqlite3": "^5.1.7"
   }
 }
