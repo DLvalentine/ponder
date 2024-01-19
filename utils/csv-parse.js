@@ -8,7 +8,7 @@ export default () => {
         raw.pipe(new CsvReadableStream()).on('data', (row) => {
             // Card, Set ID, Set Name[skip], Quantity, Foil[skip]
             collection.push({
-                card: row[0].replace('\'', '\'\''),
+                card: row[0].replaceAll('\'', '\'\''),
                 card_set_id: row[1],
                 quantity: row[3]
             });

@@ -19,7 +19,8 @@ export default () => {
                 keywords JSON NOT NULL,
                 loyalty TEXT,
                 cmc INT NOT NULL,
-                scryfall_uri TEXT NOT NULL
+                scryfall_uri TEXT NOT NULL,
+                colors JSON NOT NULL
             )
         `);
     });

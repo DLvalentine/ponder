@@ -13,14 +13,18 @@
  *  - loyalty         text,         API
  *  - CMC             int,          API, REQ
  *  - scryfall_uri    text,         API, REQ
+ *  - colors          JSON[]<text>  API, REQ
  */
 export default (db, values) => {
-    // nullable values, TODO can probably DRY up
+    // nullable values
     const power = values.power ? `'${values.power}'` : 'NULL';
     const toughness = values.toughness ? `'${values.toughness}'` : 'NULL';
     const img_url = values.img_url ? `'${values.img_url}'` : 'NULL';
     const loyalty = values.loyalty ? `'${values.loyalty}'` : 'NULL';
+
+    // JSON values
     const keywords = JSON.stringify(values.keywords);
+    const colors = JSON.stringify(values.colors);
 
     db.serialize(() => {
         db.run(`
@@ -38,7 +42,8 @@ export default (db, values) => {
                 keywords,
                 loyalty,
                 cmc,
-                scryfall_uri
+                scryfall_uri,
+                colors
             )
             VALUES (
                 '${values.card}',
@@ -54,7 +59,8 @@ export default (db, values) => {
                 json('${keywords}'),
                 ${loyalty},
                 ${values.cmc},
-                '${values.scryfall_uri}'
+                '${values.scryfall_uri}',
+                json('${colors}')
             );
         `);
     });
