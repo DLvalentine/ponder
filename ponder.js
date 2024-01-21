@@ -3,6 +3,7 @@ import ParseCollection from './utils/csv-parse.js';
 import InsertIntoCollection from './db/insert.js';
 import * as Scry from 'scryfall-api';
 
+// TODO: Need to figure out how to handle dual-sided or other "funky" cards
 (async () => {
     // Get or Create the DB, store in variable
     const db = GetOrCreateDB();
@@ -38,6 +39,7 @@ import * as Scry from 'scryfall-api';
                         row.cmc = info.cmc;
                         row.scryfall_uri = info.scryfall_uri.replaceAll('\'', '\'\'');
                         row.colors = info.colors ? info.colors : [];
+                        row.rarity = info.rarity ? info.rarity.replaceAll('\'', '\'\'') : 'Unknown';
 
                         InsertIntoCollection(db, row);
                     });
@@ -49,6 +51,7 @@ import * as Scry from 'scryfall-api';
         });
 
         // Once all fetches and inserts are done, then we can close the db (ugly lol but it works)
+        // FIXME: This kinda works? Gets errors sometimes.
         Promise.all(inserts).then().then(() => {
             db.close();
         });

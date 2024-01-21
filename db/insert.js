@@ -14,6 +14,7 @@
  *  - CMC             int,          API, REQ
  *  - scryfall_uri    text,         API, REQ
  *  - colors          JSON[]<text>  API, REQ
+ *  - rarity          text,         API, REQ
  */
 export default (db, values) => {
     // nullable values
@@ -43,7 +44,8 @@ export default (db, values) => {
                 loyalty,
                 cmc,
                 scryfall_uri,
-                colors
+                colors,
+                rarity
             )
             VALUES (
                 '${values.card}',
@@ -60,7 +62,8 @@ export default (db, values) => {
                 ${loyalty},
                 ${values.cmc},
                 '${values.scryfall_uri}',
-                json('${colors}')
+                json('${colors}'),
+                '${values.rarity}'
             );
         `);
     });

@@ -20,7 +20,8 @@ export default () => {
                 loyalty TEXT,
                 cmc INT NOT NULL,
                 scryfall_uri TEXT NOT NULL,
-                colors JSON NOT NULL
+                colors JSON NOT NULL,
+                rarity TEXT NOT NULL
             )
         `);
     });
