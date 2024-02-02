@@ -4,6 +4,7 @@ import InsertIntoCollection from './db/insert.js';
 import * as Scry from 'scryfall-api';
 
 // TODO: Need to figure out how to handle dual-sided or other "funky" cards
+// TODO lookup card and skip API call if exists
 (async () => {
     // Get or Create the DB, store in variable
     const db = GetOrCreateDB();
@@ -48,12 +49,6 @@ import * as Scry from 'scryfall-api';
                 resolveRowProcess(lookup);
             })
             );
-        });
-
-        // Once all fetches and inserts are done, then we can close the db (ugly lol but it works)
-        // FIXME: This kinda works? Gets errors sometimes.
-        Promise.all(inserts).then().then(() => {
-            db.close();
         });
     });
 })();
